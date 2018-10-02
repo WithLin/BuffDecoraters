@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using BuffDecoraters.DispatchProxy;
 
-namespace BuffDecoraters.ProxyHandler
+namespace BuffDecoraters.DecoratedHandler
 {
     /// <summary>
     /// handler for ProxyInstance all methods

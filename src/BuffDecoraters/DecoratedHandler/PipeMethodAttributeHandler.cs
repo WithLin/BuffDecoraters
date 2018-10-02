@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using BuffDecoraters.Extension;
 
-namespace BuffDecoraters.ProxyHandler
+namespace BuffDecoraters.DecoratedHandler
 {
 
     /// <summary>

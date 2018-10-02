@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace BuffDecoraters.ProxyHandler
+namespace BuffDecoraters.DecoratedHandler
 {
     /// <summary>
     /// async handler like PipeMethodAttributeHandler

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BuffDecoraters.ProxyHandler;
+using BuffDecoraters.DecoratedHandler;
 
 namespace BuffDecoraters.Extension
 {

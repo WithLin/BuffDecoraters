@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace BuffDecoraters.ProxyHandler
+namespace BuffDecoraters.DecoratedHandler
 {
     /// <summary>
     /// MethodAttributeContext

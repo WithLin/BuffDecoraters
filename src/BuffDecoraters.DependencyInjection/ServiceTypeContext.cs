@@ -23,7 +23,7 @@ namespace BuffDecoraters.DependencyInjection
         {
             var exContext =
                 _methodContexts.FirstOrDefault(i => i.Attribute.TypeId == context.Attribute.TypeId);
-            if (context != null && exContext.Method.ToString() == context.Method.ToString())
+            if (exContext != null && (context != null && exContext.Method.ToString() == context.Method.ToString()))
             {
                 context.SetAttribute(context.Attribute);
             }

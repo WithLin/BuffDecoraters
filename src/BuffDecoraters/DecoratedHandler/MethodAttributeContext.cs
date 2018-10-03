@@ -18,7 +18,7 @@ namespace BuffDecoraters.DecoratedHandler
         public MethodInfo Method { get; }
         public Attribute Attribute { get; private set; }
 
-        internal void SetAttribute(Attribute targetAttribute)
+        public void SetAttribute(Attribute targetAttribute)
         {
             Attribute = targetAttribute ?? throw new ArgumentNullException(nameof(targetAttribute));
         }

@@ -25,7 +25,7 @@ namespace BuffDecoraters.DependencyInjection
                 _methodContexts.FirstOrDefault(i => i.Attribute.TypeId == context.Attribute.TypeId);
             if (exContext != null && (context != null && exContext.Method.ToString() == context.Method.ToString()))
             {
-                context.SetAttribute(context.Attribute);
+                exContext.SetAttribute(context.Attribute);
             }
             else
             {

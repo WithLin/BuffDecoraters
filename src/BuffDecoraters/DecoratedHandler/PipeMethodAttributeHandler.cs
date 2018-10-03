@@ -14,7 +14,6 @@ namespace BuffDecoraters.DecoratedHandler
     /// <typeparam name="TAttribute"></typeparam>
     public abstract class PipeMethodAttributeHandler<TAttribute> : MethodsHandler where TAttribute : Attribute
     {
-        private IEnumerable<MethodAttributeContext> Contexts { get; set; }
 
         public abstract void OnExecuting(MethodAttributeContext context);
 
@@ -23,7 +22,7 @@ namespace BuffDecoraters.DecoratedHandler
 
         public override object Invoke(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? PipeInvoke(method, parameters, context)
                 : method.Invoke(ProxyInstance, parameters);
         }
@@ -31,14 +30,14 @@ namespace BuffDecoraters.DecoratedHandler
 
         public override Task InvokeAsync(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? (Task)PipeInvoke(method, parameters, context)
                 : (Task)method.Invoke(ProxyInstance, parameters);
         }
 
-        public override Task<T> InvokeAsync<T>(MethodInfo method, object[] parameters)
+        public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? (Task<T>)PipeInvoke(method, parameters, context)
                 : (Task<T>)method.Invoke(ProxyInstance, parameters);
         }

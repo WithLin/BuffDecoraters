@@ -4,39 +4,17 @@ using System.Threading.Tasks;
 
 namespace BuffDecoraters.DispatchProxy
 {
-    /// <summary>
-    /// ref:https://github.com/NetCoreStack/DispatchProxyAsync
-    /// </summary>
     public abstract class DispatchProxyAsync
     {
-        internal static Object Create(Type targetType, Type proxyType)
+        public static T Create<T, TProxy>(Type instanceBaseType, Type proxyType) where TProxy : DispatchProxyAsync
         {
-            return AsyncDispatchProxyGenerator.CreateProxyInstance(proxyType, targetType);
+            return (T)AsyncDispatchProxyGenerator.CreateProxyInstance(proxyType, instanceBaseType);
         }
 
-        /// <summary>
-        /// if method is sync
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public abstract object Invoke(MethodInfo method, object[] parameters);
+        public abstract object Invoke(MethodInfo method, object[] args);
 
-        /// <summary>
-        /// if method return type is task
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public abstract Task InvokeAsync(MethodInfo method, object[] parameters);
+        public abstract Task InvokeAsync(MethodInfo method, object[] args);
 
-        /// <summary>
-        ///  if method return type is task<T>
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="method"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public abstract Task<T> InvokeAsync<T>(MethodInfo method, object[] parameters);
+        public abstract Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args);
     }
 }

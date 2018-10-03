@@ -19,8 +19,8 @@ namespace BuffDecoraters.Extension
         /// <returns></returns>
         public static Boolean TryGetAttributeContext(this IEnumerable<MethodAttributeContext> contexs, MethodInfo method, Type attributeType, out MethodAttributeContext context)
         {
-            context = contexs
-                .FirstOrDefault(i => i.Method.ToString() == method.ToString() && i.Attribute.GetType() == attributeType);
+            context = contexs?.FirstOrDefault
+                (i => i.Method.ToString() == method.ToString() && i.Attribute.GetType() == attributeType);
             if (context == null)
             {
                 return false;

@@ -14,26 +14,23 @@ using System.Threading.Tasks;
 
 namespace BuffDecoraters.DispatchProxy
 {
-    /// <summary>
-    /// ref:https://github.com/NetCoreStack/DispatchProxyAsync
-    /// </summary>
-    internal class DispatchProxyHandler
-    {
-        internal DispatchProxyHandler()
+    public class DispatchProxyHandler
+    {   
+        public DispatchProxyHandler()
         {
         }
 
-        internal object InvokeHandle(object[] args)
+        public object InvokeHandle(object[] args)
         {
             return AsyncDispatchProxyGenerator.Invoke(args);
         }
 
-        internal Task InvokeAsyncHandle(object[] args)
+        public Task InvokeAsyncHandle(object[] args)
         {
             return AsyncDispatchProxyGenerator.InvokeAsync(args);
         }
 
-        internal Task<T> InvokeAsyncHandleT<T>(object[] args)
+        public Task<T> InvokeAsyncHandleT<T>(object[] args)
         {
             return AsyncDispatchProxyGenerator.InvokeAsync<T>(args);
         }
@@ -83,13 +80,13 @@ namespace BuffDecoraters.DispatchProxy
         // This approach is used to prevent regenerating identical proxy types for identical T/Proxy pairs,
         // which would ultimately be a more expensive leak.
         // Proxy instances are not cached.  Their lifetime is entirely owned by the caller of DispatchProxy.Create.
-        private static readonly Dictionary<Type, Dictionary<Type, Type>> s_baseTypeAndInterfaceToGeneratedProxyType =
+        private static readonly Dictionary<Type, Dictionary<Type, Type>> s_baseTypeAndInterfaceToGeneratedProxyType = 
             new Dictionary<Type, Dictionary<Type, Type>>();
 
         private static readonly ProxyAssembly s_proxyAssembly = new ProxyAssembly();
         private static readonly MethodInfo s_dispatchProxyInvokeMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("Invoke");
         private static readonly MethodInfo s_dispatchProxyInvokeAsyncMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("InvokeAsync");
-        private static readonly MethodInfo s_dispatchProxyInvokeAsyncTMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("InvokeAsync");
+        private static readonly MethodInfo s_dispatchProxyInvokeAsyncTMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("InvokeAsyncT");
 
         // Returns a new instance of a proxy the derives from 'baseType' and implements 'interfaceType'
         internal static object CreateProxyInstance(Type baseType, Type interfaceType)
@@ -219,7 +216,7 @@ namespace BuffDecoraters.DispatchProxy
             try
             {
                 Debug.Assert(s_dispatchProxyInvokeAsyncMethod != null);
-                await (Task)s_dispatchProxyInvokeAsyncMethod.Invoke(context.Packed.DispatchProxy,
+                await (Task) s_dispatchProxyInvokeAsyncMethod.Invoke(context.Packed.DispatchProxy,
                                                                        new object[] { context.Method, context.Packed.Args });
             }
             catch (TargetInvocationException tie)
@@ -705,7 +702,7 @@ namespace BuffDecoraters.DispatchProxy
                     invokeMethod = s_delegateinvokeAsyncT.MakeGenericMethod(returnTypes);
                 }
 
-                // Call AsyncDispatchProxyGenerator.Invoke(object[]), InvokeAsync or InvokeAsync
+                // Call AsyncDispatchProxyGenerator.Invoke(object[]), InvokeAsync or InvokeAsyncT
                 il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Ldfld, _fields[InvokeActionFieldAndCtorParameterIndex]);
                 packedArr.Load();

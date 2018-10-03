@@ -31,7 +31,7 @@ namespace Decorate.Sample
             // add services
             serviceCollection.AddTransient<ITestService, TestService>();
             var assmbly = typeof(BTestAttribute).Assembly;
-            //serviceCollection.AddMethodAttributeDecorated(typeof(BTestAttribute), assmbly, assmbly);
+            serviceCollection.AddMethodAttributeDecorated(typeof(BTestAttribute), assmbly, assmbly);
             serviceCollection.AddMethodAttributeDecorated(typeof(ATestAttribute), assmbly, assmbly);
         }
     }

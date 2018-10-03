@@ -6,7 +6,6 @@ using BuffDecoraters.Extension;
 
 namespace BuffDecoraters.DecoratedHandler
 {
-
     /// <summary>
     /// handler for ProxyInstance attribute methods
     /// if a attribute has multiple handler or a methods has multiple proxy attribute,you should consider the context
@@ -14,7 +13,7 @@ namespace BuffDecoraters.DecoratedHandler
     /// <typeparam name="TAttribute"></typeparam>
     public abstract class MethodAttributeHandler<TAttribute> : MethodsHandler where TAttribute : Attribute
     {
-        private IEnumerable<MethodAttributeContext> Contexts { get; set; }
+       
 
         /// <summary>
         /// if method is sync
@@ -37,7 +36,7 @@ namespace BuffDecoraters.DecoratedHandler
 
         public override object Invoke(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? DefaultInvoke(parameters, context, Invoke)
                 : method.Invoke(ProxyInstance, parameters);
         }
@@ -45,14 +44,14 @@ namespace BuffDecoraters.DecoratedHandler
 
         public override Task InvokeAsync(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? (Task)DefaultInvoke(parameters, context, InvokeAsync)
                 : (Task)method.Invoke(ProxyInstance, parameters);
         }
 
-        public override Task<T> InvokeAsync<T>(MethodInfo method, object[] parameters)
+        public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] parameters)
         {
-            return Contexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
+            return AttributeContexts.TryGetAttributeContext(method, typeof(TAttribute), out MethodAttributeContext context)
                 ? (Task<T>)DefaultInvoke(parameters, context, InvokeAsync<T>)
                 : (Task<T>)method.Invoke(ProxyInstance, parameters);
         }
@@ -65,7 +64,6 @@ namespace BuffDecoraters.DecoratedHandler
             context.SetParameters(parameters);
             return action?.Invoke(context);
         }
-
     }
 
 }

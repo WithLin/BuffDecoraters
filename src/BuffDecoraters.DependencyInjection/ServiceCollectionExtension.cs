@@ -16,9 +16,12 @@ namespace BuffDecoraters.DependencyInjection
             Type serviceType,
             Type proxyHandlerType)
         {
-            services.Decorate(serviceType, 
-                (inner, provider) =>
-                    DecoratedHandlerExtension.GetDecoratedProxy(serviceType, inner, proxyHandlerType));
+            services.Decorate(serviceType,(inner, provider) =>
+                {
+                    dynamic proxyHandler =Activator.CreateInstance(proxyHandlerType);
+                    return proxyHandler.CreateInstance(serviceType, inner,
+                        ServiceTypeContextListCache.FirstOrDefault(i => i.Type == serviceType)?.MethodContexts);
+                });
             return services;
         }
 

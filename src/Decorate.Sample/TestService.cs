@@ -5,7 +5,7 @@ namespace Decorate.Sample
 {
     public interface ITestService
     {
-        [ATest]
+        //[ATest]
         String Test(String name);
 
         [BTest("ITestService.Test")]
